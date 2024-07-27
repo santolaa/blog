@@ -8,11 +8,11 @@ interface Post {
   body: string
 }
 
-function PostsList() {
+const PostsList: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([])
 
   useEffect(() => {
-    async function getPosts() {
+    const getPosts = async (): Promise<void> => {
       try {
         const response = await fetchPosts()
         setPosts(response)
@@ -23,10 +23,10 @@ function PostsList() {
     getPosts()
   }, [])
 
-  const handleDeletePost = async (id: number) => {
+  const handleDeletePost = async (id: number): Promise<void> => {
     try {
       await deletePost(id)
-      setPosts(posts.filter((post) => post.id !== id))
+      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id))
     } catch (error) {
       console.error('Error deleting post: ', error)
     }

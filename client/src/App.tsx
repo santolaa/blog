@@ -3,7 +3,7 @@ import './App.css'
 import NavBar from './components/NavBar'
 import AppRoutes from './components/AppRoutes'
 
-function App() {
+const App: React.FC = () => {
   return (
     <Router>
       <div className='app'>

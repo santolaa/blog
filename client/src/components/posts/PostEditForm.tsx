@@ -12,18 +12,18 @@ interface Post {
   body: string
 }
 
-function PostEditForm() {
+const PostEditForm: React.FC = () => {
   const [post, setPost] = useState<Post | null>(null)
   const { id } = useParams<RouteParams>()
   const navigate = useNavigate()
 
   useEffect(() => {
-    const fetchCurrentPost = async () => {
+    const fetchCurrentPost = async (): Promise<void> => {
       if (!id) return
 
       try {
-        const post = await fetchPost(id)
-        setPost(post)
+        const fetchedPost = await fetchPost(id)
+        setPost(fetchedPost)
       } catch (error) {
         console.error('Error fetching post: ', error)
       }
@@ -31,7 +31,7 @@ function PostEditForm() {
     fetchCurrentPost()
   }, [id])
 
-  async function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     if (!post || !id) return
 
     e.preventDefault()
@@ -63,7 +63,7 @@ function PostEditForm() {
             id='title'
             type='text'
             value={post.title}
-            onChange={(e) => setPost({ ...post, title: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPost({ ...post, title: e.target.value })}
           />
         </div>
         <div>
@@ -73,7 +73,7 @@ function PostEditForm() {
             required
             id='body'
             value={post.body}
-            onChange={(e) => setPost({ ...post, body: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPost({ ...post, body: e.target.value })}
           />
         </div>
         <div>

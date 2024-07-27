@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-function NavBar() {
+const NavBar: React.FC = () => {
   return (
     <nav>
       <Link to='/'>Posts List</Link>
