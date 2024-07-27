@@ -26,6 +26,34 @@ async function fetchPost(id: string): Promise<Post> {
   return response.json()
 }
 
+async function createPost(postData: Partial<Post>): Promise<Post> {
+  const response: Response = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(postData),
+  })
+
+  if (!response.ok) {
+    throw new Error(response.statusText)
+  }
+
+  return response.json()
+}
+
+async function updatePost(id: string, postData: Partial<Post>): Promise<Post> {
+  const response: Response = await fetch(`${API_URL}/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(postData),
+  })
+
+  if (!response.ok) {
+    throw new Error(response.statusText)
+  }
+
+  return response.json()
+}
+
 async function deletePost(id: number): Promise<Post | null> {
   const response: Response = await fetch(`${API_URL}/${id}`, {
     method: 'DELETE',
@@ -42,4 +70,4 @@ async function deletePost(id: number): Promise<Post | null> {
   return response.json()
 }
 
-export { deletePost, fetchPost, fetchPosts }
+export { createPost, deletePost, fetchPost, fetchPosts, updatePost }

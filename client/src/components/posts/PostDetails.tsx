@@ -32,8 +32,10 @@ const PostDetails: React.FC = () => {
   }, [id])
 
   const handleDeletePost = async () => {
+    if (!post) return
+
     try {
-      await deletePost(post!.id)
+      await deletePost(post.id)
       navigate('/')
     } catch (error) {
       console.error('Error deleting post: ', error)
