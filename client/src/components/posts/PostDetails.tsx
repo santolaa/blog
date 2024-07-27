@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { API_URL } from '../../constants'
+import { deletePost, fetchPost } from '../../services/postService'
+
+interface RouteParams extends Record<string, string | undefined> {
+  id: string
+}
 
 interface Post {
   id: number
@@ -8,39 +12,31 @@ interface Post {
   body: string
 }
 
-function PostDetails() {
+const PostDetails: React.FC = () => {
   const [post, setPost] = useState<Post | null>(null)
-  const { id } = useParams()
+  const { id } = useParams<RouteParams>()
   const navigate = useNavigate()
 
   useEffect(() => {
-    const fetchPost = async () => {
+    const fetchCurrentPost = async () => {
+      if (!id) return
+
       try {
-        const response = await fetch(`${API_URL}/${id}`)
-        if (response.ok) {
-          const post = await response.json()
-          setPost(post)
-        } else {
-          throw response
-        }
+        const post = await fetchPost(id)
+        setPost(post)
       } catch (error) {
         console.error('Error fetching post: ', error)
       }
     }
-    fetchPost()
+    fetchCurrentPost()
   }, [id])
 
-  const deletePost = async () => {
-    try {
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: 'DELETE',
-      })
+  const handleDeletePost = async () => {
+    if (!post) return
 
-      if (response.ok) {
-        navigate('/')
-      } else {
-        throw response
-      }
+    try {
+      await deletePost(post.id)
+      navigate('/')
     } catch (error) {
       console.error('Error deleting post: ', error)
     }
@@ -56,7 +52,7 @@ function PostDetails() {
       {' | '}
       <Link to='/'>Back to Posts List</Link>
       {' | '}
-      <button onClick={deletePost}>Delete</button>
+      <button onClick={handleDeletePost}>Delete</button>
     </div>
   )
 }

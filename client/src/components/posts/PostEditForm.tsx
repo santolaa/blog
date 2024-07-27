@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { API_URL } from "../../constants"
+import { fetchPost, updatePost } from "../../services/postService"
+
+interface RouteParams extends Record<string, string | undefined> {
+  id: string
+}
 
 interface Post {
   id: number
@@ -10,41 +14,36 @@ interface Post {
 
 function PostEditForm() {
   const [post, setPost] = useState<Post | null>(null)
-  const { id } = useParams()
+  const { id } = useParams<RouteParams>()
   const navigate = useNavigate()
 
   useEffect(() => {
-    const fetchPost = async () => {
+    const fetchCurrentPost = async () => {
+      if (!id) return
+
       try {
-        const response = await fetch(`${API_URL}/${id}`)
-        if (response.ok) {
-          const post = await response.json()
-          setPost(post)
-        } else {
-          throw response
-        }
+        const post = await fetchPost(id)
+        setPost(post)
       } catch (error) {
         console.error('Error fetching post: ', error)
       }
     }
-    fetchPost()
+    fetchCurrentPost()
   }, [id])
 
   async function handleSubmit(e: React.FormEvent) {
+    if (!post || !id) return
+
     e.preventDefault()
 
-    try {
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: post?.title, body: post?.body }),
-      })
+    const updatedPost = {
+      title: post.title,
+      body: post.body,
+    }
 
-      if (response.ok) {
-        navigate(`/posts/${id}`)
-      } else {
-        throw response
-      }
+    try {
+      const response = await updatePost(id, updatedPost)
+      navigate(`/posts/${response.id}`)
     } catch (error) {
       console.error('Failed to update post: ', error)
     }
