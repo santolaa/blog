@@ -13,7 +13,7 @@ async function fetchPosts(): Promise<Post[]> {
     throw new Error(response.statusText)
   }
 
-  return response.json()
+  return response.json() as Promise<Post[]>
 }
 
 async function fetchPost(id: string): Promise<Post> {
@@ -23,7 +23,7 @@ async function fetchPost(id: string): Promise<Post> {
     throw new Error(response.statusText)
   }
 
-  return response.json()
+  return response.json() as Promise<Post>
 }
 
 async function createPost(postData: Partial<Post>): Promise<Post> {
@@ -37,7 +37,7 @@ async function createPost(postData: Partial<Post>): Promise<Post> {
     throw new Error(response.statusText)
   }
 
-  return response.json()
+  return response.json() as Promise<Post>
 }
 
 async function updatePost(id: string, postData: Partial<Post>): Promise<Post> {
@@ -51,10 +51,10 @@ async function updatePost(id: string, postData: Partial<Post>): Promise<Post> {
     throw new Error(response.statusText)
   }
 
-  return response.json()
+  return response.json() as Promise<Post>
 }
 
-async function deletePost(id: number): Promise<Post | null> {
+async function deletePost(id: number): Promise<void> {
   const response: Response = await fetch(`${API_URL}/${id}`, {
     method: 'DELETE',
   })
@@ -62,12 +62,6 @@ async function deletePost(id: number): Promise<Post | null> {
   if (!response.ok) {
     throw new Error(response.statusText)
   }
-
-  if (response.status === 204) {
-    return null
-  }
-
-  return response.json()
 }
 
 export { createPost, deletePost, fetchPost, fetchPosts, updatePost }

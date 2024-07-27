@@ -18,12 +18,12 @@ const PostDetails: React.FC = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const fetchCurrentPost = async () => {
+    const fetchCurrentPost = async (): Promise<void> => {
       if (!id) return
 
       try {
-        const post = await fetchPost(id)
-        setPost(post)
+        const fetchedPost = await fetchPost(id)
+        setPost(fetchedPost)
       } catch (error) {
         console.error('Error fetching post: ', error)
       }
@@ -31,7 +31,7 @@ const PostDetails: React.FC = () => {
     fetchCurrentPost()
   }, [id])
 
-  const handleDeletePost = async () => {
+  const handleDeletePost = async (): Promise<void> => {
     if (!post) return
 
     try {

@@ -4,7 +4,7 @@ import PostDetails from './posts/PostDetails'
 import NewPostForm from './posts/NewPostForm'
 import PostEditForm from './posts/PostEditForm'
 
-function AppRoutes() {
+const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path='/' element={<PostsList />} />
