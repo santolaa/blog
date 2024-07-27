@@ -31,21 +31,21 @@ function NewPostForm() {
       <h2>Create a New Post</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor='titleInput'>Title:</label>
+          <label htmlFor='title'>Title:</label>
           <input
             required
             type='text'
             value={title}
-            id='titleInput'
+            id='title'
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor='bodyInput'>Body:</label>
+          <label htmlFor='body'>Body:</label>
           <textarea
             required
             value={body}
-            id='bodyInput'
+            id='body'
             onChange={(e) => setBody(e.target.value)}
           />
         </div>
