@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom'
 import NavBar from '../../components/NavBar'
 
 describe('NavBar', () => {
-  const renderNavBar = () => {
+  const renderNavBar = (): void => {
     render(<NavBar />, { wrapper: MemoryRouter })
   }
 
