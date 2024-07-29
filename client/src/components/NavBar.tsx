@@ -5,7 +5,7 @@ const NavBar: React.FC = () => {
     <nav>
       <Link to='/'>Posts List</Link>
       {' | '}
-      <Link to='/new'>New Post</Link>
+      <Link to='/new'>Create New Post</Link>
     </nav>
   )
 }
