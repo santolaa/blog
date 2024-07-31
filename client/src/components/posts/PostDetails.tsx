@@ -19,10 +19,8 @@ const PostDetails: React.FC = () => {
 
   useEffect(() => {
     const fetchCurrentPost = async (): Promise<void> => {
-      if (!id) return
-
       try {
-        const fetchedPost = await fetchPost(id)
+        const fetchedPost = await fetchPost(id!)
         setPost(fetchedPost)
       } catch (error) {
         console.error('Error fetching post: ', error)
@@ -32,10 +30,8 @@ const PostDetails: React.FC = () => {
   }, [id])
 
   const handleDeletePost = async (): Promise<void> => {
-    if (!post) return
-
     try {
-      await deletePost(post.id)
+      await deletePost(post!.id)
       navigate('/')
     } catch (error) {
       console.error('Error deleting post: ', error)

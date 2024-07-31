@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import * as postService from '../../../services/postService'
+import * as postServices from '../../../services/postService'
 import PostsList from '../../../components/posts/PostsList'
 
 interface Post {
@@ -27,8 +27,8 @@ describe('PostsList', () => {
   ]
 
   beforeEach(() => {
-    (postService.fetchPosts as jest.Mock).mockResolvedValue(mockPosts);
-    (postService.deletePost as jest.Mock).mockResolvedValue(mockPosts);
+    (postServices.fetchPosts as jest.Mock).mockResolvedValue(mockPosts);
+    (postServices.deletePost as jest.Mock).mockResolvedValue(mockPosts);
   })
 
   test('renders a list of posts', async () => {
@@ -48,14 +48,14 @@ describe('PostsList', () => {
 
     fireEvent.click(screen.getAllByText('Delete')[0])
 
-    await waitFor(() => expect(postService.deletePost).toHaveBeenCalled())
+    await waitFor(() => expect(postServices.deletePost).toHaveBeenCalled())
 
     expect(screen.queryByText(postText)).not.toBeInTheDocument()
   })
 
   test('handles error when fetching posts fails', async () => {
     const error = new Error('An error occurred!');
-    (postService.fetchPosts as jest.Mock).mockRejectedValue(error)
+    (postServices.fetchPosts as jest.Mock).mockRejectedValue(error)
 
     render(<PostsList />, { wrapper: MemoryRouter })
 
@@ -66,7 +66,7 @@ describe('PostsList', () => {
 
   test('handles error when deleting a post fails', async () => {
     const error = new Error('An error occurred!');
-    (postService.deletePost as jest.Mock).mockRejectedValue(error)
+    (postServices.deletePost as jest.Mock).mockRejectedValue(error)
 
     render(<PostsList />, { wrapper: MemoryRouter })
 
