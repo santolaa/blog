@@ -66,7 +66,7 @@ describe('PostDetails', () => {
 
   it('deletes the post and redirects to the posts list', async () => {
     (postService.fetchPost as jest.Mock).mockResolvedValue(mockPost);
-    (postService.deletePost as jest.Mock).mockResolvedValue();
+    (postService.deletePost as jest.Mock).mockResolvedValue(undefined);
 
     renderComponent()
 
