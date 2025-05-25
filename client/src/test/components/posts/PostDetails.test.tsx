@@ -2,12 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import * as postService from '../../../services/postService'
 import PostDetails from '../../../components/posts/PostDetails'
-
-interface Post {
-  id: number
-  title: string
-  body: string
-}
+import { Post } from '../../../components/posts/Post.model'
 
 global.console.error = jest.fn()
 

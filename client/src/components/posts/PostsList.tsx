@@ -1,12 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { deletePost, fetchPosts } from '../../services/postService'
-
-interface Post {
-  id: number
-  title: string
-  body: string
-}
+import { Post } from './Post.model'
 
 const PostsList: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([])

@@ -1,15 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { deletePost, fetchPost } from '../../services/postService'
+import { Post } from './Post.model'
 
 interface RouteParams extends Record<string, string | undefined> {
   id: string
-}
-
-interface Post {
-  id: number
-  title: string
-  body: string
 }
 
 const PostDetails: React.FC = () => {
