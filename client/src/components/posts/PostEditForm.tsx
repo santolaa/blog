@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { fetchPost, updatePost } from "../../services/postService"
+import { Post } from "./Post.model"
 
-interface RouteParams extends Record<string, string | undefined> {
+interface RouteParams extends Record<string, string> {
   id: string
-}
-
-interface Post {
-  id: number
-  title: string
-  body: string
 }
 
 const PostEditForm: React.FC = () => {
@@ -19,10 +14,8 @@ const PostEditForm: React.FC = () => {
 
   useEffect(() => {
     const fetchCurrentPost = async (): Promise<void> => {
-      if (!id) return
-
       try {
-        const fetchedPost = await fetchPost(id)
+        const fetchedPost = await fetchPost(id as string)
         setPost(fetchedPost)
       } catch (error) {
         console.error('Error fetching post: ', error)
@@ -32,18 +25,16 @@ const PostEditForm: React.FC = () => {
   }, [id])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    if (!post || !id) return
-
     e.preventDefault()
 
     const updatedPost = {
-      title: post.title,
-      body: post.body,
+      title: post!.title,
+      body: post!.body,
     }
 
     try {
-      const response = await updatePost(id, updatedPost)
-      navigate(`/posts/${response.id}`)
+      await updatePost(id as string, updatedPost)
+      navigate(`/posts/${id}`)
     } catch (error) {
       console.error('Failed to update post: ', error)
     }

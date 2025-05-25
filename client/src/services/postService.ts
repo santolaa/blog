@@ -1,10 +1,5 @@
+import { Post } from '../components/posts/Post.model'
 import { API_URL } from '../constants'
-
-interface Post {
-  id: number
-  title: string
-  body: string
-}
 
 async function fetchPosts(): Promise<Post[]> {
   const response: Response = await fetch(API_URL)

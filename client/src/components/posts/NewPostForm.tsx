@@ -1,11 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createPost } from '../../services/postService'
-
-interface Post {
-  title: string
-  body: string
-}
+import { PostForm } from './Post.model'
 
 const NewPostForm: React.FC = () => {
   const [title, setTitle] = useState<string>('')
@@ -15,7 +11,7 @@ const NewPostForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
 
-    const post: Post = { title, body }
+    const post: PostForm = { title, body }
 
     try {
       const response = await createPost(post)
