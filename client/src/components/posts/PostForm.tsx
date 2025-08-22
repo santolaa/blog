@@ -44,7 +44,7 @@ function PostForm({
           />
         </div>
         <div>
-          <label htmlFor="body">Body:</label>
+          <label htmlFor="body">Body</label>
           <textarea
             required
             value={formData.body}
