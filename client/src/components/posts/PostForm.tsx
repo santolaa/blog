@@ -34,7 +34,7 @@ function PostForm({
       <h2>{headerText}</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="title">Title:</label>
+          <label htmlFor="title">Title</label>
           <input
             required
             type="text"
