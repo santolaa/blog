@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import * as postService from '../../../services/postService'
 import PostEditForm from '../../../components/posts/PostEditForm'
-import { Post, PostForm } from '../../../components/posts/Post.model'
+import { Post, PostFormFields } from '../../../components/posts/Post.model'
 import { act } from 'react'
 
 jest.mock('../../../constants', () => ({
@@ -58,7 +58,7 @@ describe('PostEditForm', () => {
       expect(postService.fetchPost).toHaveBeenCalledTimes(1)
     })
 
-    const newPost: PostForm = {
+    const newPost: PostFormFields = {
       title: 'New Post Title',
       body: 'New Post Body',
     }

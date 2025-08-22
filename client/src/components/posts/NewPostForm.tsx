@@ -1,18 +1,12 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createPost } from '../../services/postService'
-import { PostForm } from './Post.model'
+import { PostFormFields } from './Post.model'
+import PostForm from './PostForm'
 
 const NewPostForm: React.FC = () => {
-  const [title, setTitle] = useState<string>('')
-  const [body, setBody] = useState<string>('')
   const navigate = useNavigate()
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault()
-
-    const post: PostForm = { title, body }
-
+  const handleSubmit = async (post: PostFormFields): Promise<void> => {
     try {
       const response = await createPost(post)
       navigate(`/posts/${response.id}`)
@@ -22,33 +16,11 @@ const NewPostForm: React.FC = () => {
   }
 
   return (
-    <div>
-      <h2>Create a New Post</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor='title'>Title:</label>
-          <input
-            required
-            type='text'
-            value={title}
-            id='title'
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor='body'>Body:</label>
-          <textarea
-            required
-            value={body}
-            id='body'
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setBody(e.target.value)}
-          />
-        </div>
-        <div>
-          <button type='submit'>Save</button>
-        </div>
-      </form>
-    </div>
+    <PostForm
+      headerText="Create a New Post"
+      onSubmit={handleSubmit}
+      submitButtonText="Save"
+    />
   )
 }
 
