@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-import { fetchPost, updatePost } from "../../services/postService"
-import { Post } from "./Post.model"
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { fetchPost, updatePost } from '../../services/postService'
+import { Post, PostFormFields } from './Post.model'
+import PostForm from './PostForm'
 
 interface RouteParams extends Record<string, string> {
   id: string
@@ -24,14 +25,7 @@ const PostEditForm: React.FC = () => {
     fetchCurrentPost()
   }, [id])
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault()
-
-    const updatedPost = {
-      title: post!.title,
-      body: post!.body,
-    }
-
+  const handleSubmit = async (updatedPost: PostFormFields): Promise<void> => {
     try {
       await updatePost(id as string, updatedPost)
       navigate(`/posts/${id}`)
@@ -43,35 +37,12 @@ const PostEditForm: React.FC = () => {
   if (!post) return <h2>Loading...</h2>
 
   return (
-    <div>
-      <h2>Edit Post</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor='title'>Title</label>
-          <br />
-          <input
-            required
-            id='title'
-            type='text'
-            value={post.title}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPost({ ...post, title: e.target.value })}
-          />
-        </div>
-        <div>
-          <label htmlFor='body'>Body</label>
-          <br />
-          <textarea
-            required
-            id='body'
-            value={post.body}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPost({ ...post, body: e.target.value })}
-          />
-        </div>
-        <div>
-          <button type='submit'>Save</button>
-        </div>
-      </form>
-    </div>
+    <PostForm
+      headerText="Edit Post"
+      onSubmit={handleSubmit}
+      submitButtonText="Save"
+      post={{ title: post.title, body: post.body }}
+    />
   )
 }
 

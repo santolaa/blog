@@ -4,7 +4,7 @@ export interface Post {
   body: string
 }
 
-export interface PostForm {
+export interface PostFormFields {
   title: string
   body: string
 }
